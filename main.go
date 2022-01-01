@@ -1,8 +1,9 @@
 package main
 
 import (
-	_ "fmt"
 	"github.com/Yota-K/golang-hacker-news-cui/ui"
+	"github.com/urfave/cli/v2"
+	"os"
 )
 
 func main() {
@@ -10,6 +11,21 @@ func main() {
 }
 
 func getHackerNews() {
-	// hn := api.GetHackerNews(1)
-	// fmt.Println(hn)
+	app := &cli.App{
+		Name:  "hn",
+		Usage: "This is a tool to see 'Hacker News' made with Go",
+		Flags: []cli.Flag{
+			&cli.IntFlag{
+				Name:  "number, n",
+				Value: 10,
+				Usage: "option for number of Hacker News acquisitions",
+			},
+		},
+		Action: func(c *cli.Context) error {
+			ui.HnUi(c.Int("number"))
+			return nil
+		},
+	}
+
+	app.Run(os.Args)
 }
