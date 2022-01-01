@@ -1,7 +1,6 @@
 package api
 
 import (
-	"bytes"
 	"encoding/json"
 	"fmt"
 	"github.com/dyatlov/go-opengraph/opengraph"
@@ -57,16 +56,14 @@ func GetHackerNews(n int) []HackerNews {
 		body, _ := ioutil.ReadAll(res.Body)
 		json.Unmarshal(body, &hn)
 
-		buf := bytes.NewBuffer(body)
-		html := buf.String()
+		if hn.Url != "" {
+			description := getDescription(hn.Url)
 
-		og := opengraph.NewOpenGraph()
-		err := og.ProcessHTML(strings.NewReader(html))
-		if err != nil {
-			fmt.Println(err)
+			if description != "" {
+				hn.Description = getDescription(hn.Url)
+			}
 		}
 
-		hn.Description = og.Description
 		hns = append(hns, hn)
 
 		count += 1
@@ -74,4 +71,19 @@ func GetHackerNews(n int) []HackerNews {
 
 	// hacker newsの情報を含む構造体を返却する
 	return hns
+}
+
+// og:descriptionを取得
+// MEMO: og:descriptionしか取得できない
+func getDescription(url string) string {
+	res, _ := http.Get(url)
+	body, _ := ioutil.ReadAll(res.Body)
+
+	og := opengraph.NewOpenGraph()
+	err := og.ProcessHTML(strings.NewReader(string(body)))
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	return og.Description
 }

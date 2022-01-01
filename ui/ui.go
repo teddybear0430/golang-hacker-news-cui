@@ -43,8 +43,6 @@ func generateTreeNodes(n int) []*widgets.TreeNode {
 	hns := api.GetHackerNews(n)
 	var nodes []*widgets.TreeNode
 	for _, hn := range hns {
-		fmt.Println(hn.Score)
-
 		node := widgets.TreeNode{
 			Value: nodeValue(hn.Title),
 			Nodes: []*widgets.TreeNode{
@@ -65,8 +63,13 @@ func generateTreeNodes(n int) []*widgets.TreeNode {
 					Nodes: nil,
 				},
 				{
-					Value: nodeValue(hn.Url),
-					Nodes: nil,
+					Value: nodeValue("Description"),
+					Nodes: []*widgets.TreeNode{
+						{
+							Value: nodeValue(hn.Description),
+							Nodes: nil,
+						},
+					},
 				},
 			},
 		}
