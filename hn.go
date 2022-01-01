@@ -7,10 +7,6 @@ import (
 )
 
 func main() {
-	ui.HnUi(10)
-}
-
-func getHackerNews() {
 	app := &cli.App{
 		Name:  "hn",
 		Usage: "This is a tool to see 'Hacker News' made with Go",
