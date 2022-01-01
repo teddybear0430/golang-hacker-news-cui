@@ -21,9 +21,9 @@ func Keybindings(t *widgets.Tree) {
 			t.ScrollDown()
 		case "E":
 			t.ExpandAll()
-		case "C":
+		case "C", "h":
 			t.CollapseAll()
-		case "<Enter>":
+		case "<Enter>", "l":
 			t.ToggleExpand()
 		}
 
