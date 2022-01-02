@@ -98,7 +98,6 @@ func GetHackerNews(n int) []HackerNews {
 
 	// 全ての処理が終わるまで待機
 	wg.Wait()
-	fmt.Println(hns)
 
 	// hacker newsの情報を含む構造体を返却する
 	return hns
